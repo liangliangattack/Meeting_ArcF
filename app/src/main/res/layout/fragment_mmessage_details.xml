@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/mt_blue"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/back"/>
+        <TextView
+            android:id="@+id/ch_tv_back"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:text="返回"
+            android:textColor="#fff"
+            android:gravity="center_vertical"/>
+        <Button
+            android:alpha="0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#人名#"
+                android:textColor="#fff"
+                android:padding="2dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在线"
+                android:textColor="#fff"
+                android:padding="2dp"/>
+        </LinearLayout>
+
+        <Button
+            android:alpha="0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/startScoket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开启socket"/>
+    <EditText
+        android:id="@+id/ms_details_et_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="填写消息"/>
+    <Button
+        android:id="@+id/ms_details_btn_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送消息"/>
+    <EditText
+        android:id="@+id/ms_details_et_display"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+</LinearLayout>

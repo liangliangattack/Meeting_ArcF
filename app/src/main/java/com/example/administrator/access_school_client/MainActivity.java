@@ -3,13 +3,10 @@ package com.example.administrator.access_school_client;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,20 +16,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.TextureView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
+//import com.example.administrator.access_school_client.Fragments.FragmentMS;
+import com.example.administrator.access_school_client.Fragments.FragmentMS2;
 import com.example.administrator.access_school_client.Fragments.FragmentSY;
 import com.example.administrator.access_school_client.Fragments.FragmentWS;
-import com.example.administrator.access_school_client.Fragments.FragmentGG;
+import com.example.administrator.access_school_client.Fragments.FragmentMt;
 import com.example.administrator.access_school_client.Fragments.FragmentWD;
-import com.example.administrator.access_school_client.Service.AudioService;
 import com.example.administrator.access_school_client.UI.FastActivity;
 
 import java.util.ArrayList;
@@ -41,14 +35,14 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private FragmentSY syfragment;
-    private FragmentWS wsfragment;
-    private FragmentGG ggfragment;
+    private FragmentMS2 msfragment;
+    private FragmentMt ggfragment;
     private FragmentWD wdfragment;
 
     private ViewPager viewPager;
     private FragmentPagerAdapter fragmentPagerAdapter;
 
-    private TextView title;
+//    private TextView title;
     private LinearLayout ll_shouye , ll_weisheng , ll_gg, ll_wd;
     private ImageView iv_shouye , iv_weisheng , iv_gg,iv_wd;
 //    private ImageView setting;
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (msg.what) {
                 case 1:
 //                    display();
-                    displayNotification();
+//                    displayNotification();
                     break;
                 case 2:
                     break;
@@ -146,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void initView(){
         syfragment = new FragmentSY();
-        wsfragment = new FragmentWS();
-        ggfragment = new FragmentGG();
+        msfragment = new FragmentMS2();
+        ggfragment = new FragmentMt();
         wdfragment = new FragmentWD();
 
         viewPager = findViewById(R.id.viewpager_main);
@@ -161,12 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         iv_weisheng = findViewById(R.id.iv_weisheng);
         iv_gg = findViewById(R.id.iv_gg);
         iv_wd = findViewById(R.id.iv_wd);
-        title = findViewById(R.id.tv_title);
+//        title = findViewById(R.id.tv_title);
 //        setting = findViewById(R.id.iv_setting);
-        drawerLayout = findViewById(R.id.drawlayout_content);
+//        drawerLayout = findViewById(R.id.drawlayout_content);
         fragments = new ArrayList<Fragment>();
         fragments.add(syfragment);
-        fragments.add(wsfragment);
+        fragments.add(msfragment);
         fragments.add(ggfragment);
         fragments.add(wdfragment);
 
@@ -210,20 +204,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (item){
             case 0:
-                iv_shouye.setImageResource(R.mipmap.shouye_press);
-                title.setText("首页");
+                iv_shouye.setImageResource(R.drawable.sy_press);
+//                title.setText("首页");
                 break;
             case 1:
-                iv_weisheng.setImageResource(R.mipmap.weisheng_press);
-                title.setText("卫生");
+                iv_weisheng.setImageResource(R.drawable.ms_press);
+//                title.setText("消息");
                 break;
             case 2:
-                iv_gg.setImageResource(R.mipmap.message_press);
-                title.setText("请假保修");
+                iv_gg.setImageResource(R.drawable.mt_press);
+//                title.setText("会议");
                 break;
             case 3:
-                iv_wd.setImageResource(R.mipmap.mine_press);
-                title.setText("我的");
+                iv_wd.setImageResource(R.drawable.my_press);
+//                title.setText("我的");
                 //初始化模糊：
                 //FragmentWD.blur();
                 break;
@@ -271,9 +265,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void init(){//所有图片恢复
-        iv_shouye.setImageResource(R.mipmap.shouye);
-        iv_weisheng.setImageResource(R.mipmap.weisheng);
-        iv_gg.setImageResource(R.mipmap.message);
-        iv_wd.setImageResource(R.mipmap.mine);
+        iv_shouye.setImageResource(R.drawable.sy);
+        iv_weisheng.setImageResource(R.drawable.ms);
+        iv_gg.setImageResource(R.drawable.mt);
+        iv_wd.setImageResource(R.drawable.my);
     }
 }

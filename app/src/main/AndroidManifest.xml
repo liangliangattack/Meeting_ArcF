@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.administrator.access_school_client">
+    package="com.example.administrator.access_school_client"
+    android:installLocation="preferExternal">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -18,7 +19,7 @@
     <application
         android:name=".Application"
         android:allowBackup="true"
-        android:icon="@drawable/zhisu"
+        android:icon="@drawable/m_arcf"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -44,7 +45,16 @@
         <activity android:name=".UI.FastActivity" />
         <activity android:name=".UI.HistoryActivity" />
         <activity android:name=".UI.ActivityGG" />
-        <activity android:name=".UI.TransImgAct"></activity>
+        <activity android:name=".UI.TransImgAct" />
+        <activity android:name=".charts.ComboLineColumnChartActivity" />
+        <activity android:name=".charts.TempoChartActivity" />
+        <activity android:name=".charts.LineColumnDependencyActivity" />
+        <activity android:name=".charts.SpeedChartActivity" />
+
+        <service
+            android:name=".Service.SocketService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

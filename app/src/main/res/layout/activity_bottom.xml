@@ -24,7 +24,7 @@
                 android:id="@+id/iv_shouye"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/shouye"/>
+                android:src="@drawable/sy"/>
 
             <TextView
                 android:id="@+id/tv_shouye"
@@ -46,13 +46,13 @@
                 android:id="@+id/iv_weisheng"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/weisheng"/>
+                android:src="@drawable/ms"/>
 
             <TextView
                 android:id="@+id/tv_weisheng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="卫生"/>
+                android:text="消息"/>
 
         </LinearLayout>
 
@@ -68,13 +68,13 @@
                 android:id="@+id/iv_gg"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/message"/>
+                android:src="@drawable/mt"/>
 
             <TextView
                 android:id="@+id/tv_gg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="申请"/>
+                android:text="会议"/>
 
         </LinearLayout>
 
@@ -90,7 +90,7 @@
                 android:id="@+id/iv_wd"
                 android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:src="@mipmap/mine"/>
+                android:src="@drawable/my"/>
 
             <TextView
                 android:id="@+id/tv_wd"

@@ -10,13 +10,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -25,12 +22,10 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,16 +33,13 @@ import android.widget.Toast;
 import com.example.administrator.access_school_client.R;
 import com.example.administrator.access_school_client.UI.FaceInputFm;
 import com.example.administrator.access_school_client.UI.FragmentInfoPage;
-import com.example.administrator.access_school_client.UI.Fragmentfour;
-import com.example.administrator.access_school_client.UI.Fragmentthree;
+import com.example.administrator.access_school_client.UI.FragmentMymt;
+import com.example.administrator.access_school_client.UI.FragmentGotomt;
 import com.example.administrator.access_school_client.UI.HistoryActivity;
-import com.example.administrator.access_school_client.Util.BitmapBlurUtil;
 import com.example.administrator.access_school_client.Util.CircleImageView;
-import com.example.administrator.access_school_client.Util.GauseBulrHelper;
 import com.example.administrator.access_school_client.Util.PermissionUtil;
 import com.example.administrator.access_school_client.Util.SharedPreferencesUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,14 +56,14 @@ public class FragmentWD extends Fragment {
 
     private LinearLayout infopage;
     private LinearLayout faceinput;
-    private LinearLayout three;
-    private LinearLayout four;
+    private LinearLayout mymt;
+    private LinearLayout gotomt;
     private static CircleImageView userimage;
     private static LinearLayout userlinearlayout;
     private static int SELECT_IMAGE_CODE=1;
     private static int SELECT_IMAGE_CAMERA_CODE=0;
     private static String mImagePath;
-    private TextView hintclick;
+    private LinearLayout hintclick;
     private static TextView username;
 
     public static void changeU(String file){
@@ -87,8 +79,8 @@ public class FragmentWD extends Fragment {
         //final ImageView imageview = rootview.findViewById(R.id.test);
         faceinput = rootview.findViewById(R.id.face_input);
         infopage = rootview.findViewById(R.id.info);
-        three = rootview.findViewById(R.id.three);
-        four = rootview.findViewById(R.id.four);
+        mymt = rootview.findViewById(R.id.wd_ll_mymt);
+        gotomt = rootview.findViewById(R.id.wd_ll_gotomt);
         userlinearlayout = rootview.findViewById(R.id.user_ll);
         userimage = rootview.findViewById(R.id.user_picture);
         hintclick = rootview.findViewById(R.id.hintclick);
@@ -137,22 +129,22 @@ public class FragmentWD extends Fragment {
             }
         });
 
-        four.setOnClickListener(new View.OnClickListener() {
+        mymt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.drawlayout_content,new Fragmentfour());
+                transaction.replace(R.id.drawlayout_content,new FragmentMymt());
                 transaction.addToBackStack(null).commit();
             }
         });
 
-        three.setOnClickListener(new View.OnClickListener() {
+        gotomt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.drawlayout_content,new Fragmentthree());
+                transaction.replace(R.id.drawlayout_content,new FragmentGotomt());
                 transaction.addToBackStack(null).commit();
             }
         });

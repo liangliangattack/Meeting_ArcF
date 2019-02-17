@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,10 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,40 +29,23 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.example.administrator.access_school_client.H5tmlWebView.WebViewActivity;
-import com.example.administrator.access_school_client.MainActivity;
 import com.example.administrator.access_school_client.Model.BannerModel;
-import com.example.administrator.access_school_client.Service.AudioService;
 import com.example.administrator.access_school_client.UI.ActivityGG;
 import com.example.administrator.access_school_client.UI.AudioActivity;
 import com.example.administrator.access_school_client.UI.CarQuesActivity;
 import com.example.administrator.access_school_client.UI.FastActivity;
-import com.example.administrator.access_school_client.UI.Fragmentfour;
 import com.example.administrator.access_school_client.UI.Fragmentnews;
 import com.example.administrator.access_school_client.UI.SchoolActivitiesFrament;
 import com.example.administrator.access_school_client.UI.TransImgAct;
-import com.example.administrator.access_school_client.bean.Fast;
-import com.example.administrator.access_school_client.bean.HistoryEvent;
 import com.example.administrator.access_school_client.xmarqueeview.XMarqueeView;
 import com.example.administrator.access_school_client.xmarqueeview.XMarqueeViewAdapter;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.sivin.Banner;
 import com.sivin.BannerAdapter;
 import com.example.administrator.access_school_client.R;
 
-import net.tsz.afinal.FinalHttp;
-import net.tsz.afinal.http.AjaxCallBack;
-import net.tsz.afinal.http.AjaxParams;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 /**
  * ..

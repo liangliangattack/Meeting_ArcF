@@ -63,13 +63,10 @@ public class LoginActivity extends AppCompatActivity {
     private void init() {
         //2017.7.23
 
-
-
-
-        reg = (TextView)findViewById(R.id.reg);
-        phone = (EditText)findViewById(R.id.username);
-        pass = (EditText)findViewById(R.id.pass);
-        login1 = (Button)findViewById(R.id.login2);
+        reg = (TextView)findViewById(R.id.register);
+        phone = (EditText)findViewById(R.id.account);
+        pass = (EditText)findViewById(R.id.password);
+        login1 = (Button)findViewById(R.id.login);
         sp = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         editor = sp.edit();
         if(!sp.getString("phone","").equals("")){

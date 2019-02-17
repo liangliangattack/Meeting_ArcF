@@ -42,7 +42,7 @@ public class RegisterTwoActivity extends AppCompatActivity implements View.OnCli
 
     TextView login;
     //EditText phone;
-    EditText gender;
+//    EditText gender;
     EditText user;
     EditText pass,pass2;
     //Button reg;
@@ -52,7 +52,7 @@ public class RegisterTwoActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_register_two);
+        setContentView(R.layout.activity_register_two2);
         init();
 
         MobSDK.init(this,"2666e52ea8643","b49d67902e4910ebdef9336e9d86b35b");
@@ -131,8 +131,8 @@ public class RegisterTwoActivity extends AppCompatActivity implements View.OnCli
 
         login = (TextView)findViewById(R.id.login1);
         //phone = (EditText)findViewById(R.id.phone_number);
-        gender = (EditText)findViewById(R.id.gender);
-        user =  (EditText)findViewById(R.id.username1);
+//        gender = (EditText)findViewById(R.id.gender);
+//        user =  (EditText)findViewById(R.id.username1);
         pass = (EditText)findViewById(R.id.pass1);
         pass2 = (EditText)findViewById(R.id.pass2);
         //reg = (Button)findViewById(R.id.reg1);
@@ -164,7 +164,7 @@ public class RegisterTwoActivity extends AppCompatActivity implements View.OnCli
                             params.put("phone", mEditTextPhoneNumber.getText().toString());
                             params.put("password", pass.getText().toString());
                             params.put("username", user.getText().toString());
-                            params.put("gender", gender.getText().toString());
+//                            params.put("gender", gender.getText().toString());
                             //params.put("entityName",entity.getText().toString());
 
                             post.post(LoginActivity.IP + "/express/User/register", params, new AjaxCallBack<Object>() {

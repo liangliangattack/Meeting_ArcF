@@ -20,4 +20,9 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <!--<item name="android:listDivider">@drawable/bg_decoration</item>-->
 </resources>

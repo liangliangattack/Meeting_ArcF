@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--蓝色打底-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/mt_blue"
+        android:gravity="center">
+        <!--白色圆角矩形-->
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:background="@drawable/tab_ll_background"
+            android:layout_marginLeft="70dp"
+            android:gravity="center">
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="2.5dp"
+                android:layout_marginRight="2.5dp"
+                android:layout_height="30dp"
+                app:tabBackground="@drawable/tab_background"
+                app:tabSelectedTextColor="#fff"
+                app:tabTextColor="@color/mt_blue"
+                app:tabIndicatorHeight="0dp"
+                app:tabMode="fixed">
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="0"
+                    android:text="会议列表"
+
+                    />
+
+                <android.support.design.widget.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="1"
+                    android:text="会议发布" />
+
+            </android.support.design.widget.TabLayout>
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/iv_pt"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/pt"/>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

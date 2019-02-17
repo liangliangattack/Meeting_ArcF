@@ -4,25 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:background="#fff">-->
-        <!--<ImageView-->
-            <!--android:id="@+id/iv_setting"-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:src="@mipmap/setting"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/tv_title"-->
-            <!--android:layout_weight="1"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_marginRight="30dp"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:text="我的"/>-->
-    <!--</LinearLayout>-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -60,184 +41,202 @@
                     android:text="none"
                     android:textSize="20sp" />
             </LinearLayout>
-
-
-            <!--<ImageView-->
-                <!--android:id="@+id/test"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="200dp" />-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="#dfdbdb">
-
+                android:background="#f3f2f2">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/style_mine"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp">
-                    <LinearLayout
-                        android:id="@+id/face_input"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="20dp">
-                        <!--<ImageView-->
-                        <!--android:id="@+id/dingdan2_iv"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:src="@mipmap/dingdan2"-->
-                        <!--android:layout_marginRight="25dp"/>-->
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="人脸验证"
-                            android:textSize="15sp" />
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="30dp"
-                            android:src="@mipmap/jt"
-                            android:layout_marginLeft="200dp"/>
-                    </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/info"
+                        android:id="@+id/wd_ll_mymt"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:padding="20dp">
-                        <!--<ImageView-->
-                        <!--android:id="@+id/dingdan2_iv"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:src="@mipmap/dingdan2"-->
-                        <!--android:layout_marginRight="25dp"/>-->
+                        android:gravity="center"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="#fff">
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="我的会议" />
+                        <Button
+                            android:alpha="0"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textSize="15sp"
-                            android:text="个人信息"
-                            android:gravity="center"
-                            android:layout_marginLeft="10dp"/>
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="30dp"
-                            android:src="@mipmap/jt"
-                            android:layout_marginLeft="200dp"/>
-                    </LinearLayout>
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:orientation="horizontal"-->
-                        <!--android:padding="20dp">-->
-                        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:id="@+id/dingdan2_iv"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_width="40dp"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_height="40dp"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:src="@mipmap/dingdan2"&ndash;&gt;-->
-                        <!--&lt;!&ndash;android:layout_marginRight="25dp"/>&ndash;&gt;-->
-                        <!--<TextView-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:textSize="15sp"-->
-                            <!--android:text="卫生情况"-->
-                            <!--android:gravity="center"-->
-                            <!--android:layout_marginLeft="10dp"/>-->
-                        <!--<ImageView-->
-                            <!--android:layout_width="20dp"-->
-                            <!--android:layout_height="30dp"-->
-                            <!--android:src="@mipmap/jt"-->
-                            <!--android:layout_marginLeft="200dp"/>-->
-                    <!--</LinearLayout>-->
-                    <LinearLayout
-                        android:id="@+id/three"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="20dp">
-                        <!--<ImageView-->
-                        <!--android:id="@+id/dingdan2_iv"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:src="@mipmap/dingdan2"-->
-                        <!--android:layout_marginRight="25dp"/>-->
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.0" />
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textSize="15sp"
-                            android:text="历史保修"
-                            android:gravity="center"
-                            android:layout_marginLeft="10dp"/>
+                            android:alpha="0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="#会议时间#"/>
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="30dp"
-                            android:src="@mipmap/jt"
-                            android:layout_marginLeft="200dp"/>
+                            android:layout_width="25dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/go"/>
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/four"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="20dp">
-                        <!--<ImageView-->
-                        <!--android:id="@+id/dingdan2_iv"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:src="@mipmap/dingdan2"-->
-                        <!--android:layout_marginRight="25dp"/>-->
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textSize="15sp"
-                            android:text="历史假条"
-                            android:gravity="center"
-                            android:layout_marginLeft="10dp"/>
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="30dp"
-                            android:src="@mipmap/jt"
-                            android:layout_marginLeft="200dp"/>
-                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="20dp">
-                        <!--<ImageView-->
-                        <!--android:id="@+id/dingdan2_iv"-->
-                        <!--android:layout_width="40dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:src="@mipmap/dingdan2"-->
-                        <!--android:layout_marginRight="25dp"/>-->
-                        <TextView
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/wd_ll_gotomt"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:background="#fff">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="参加会议" />
+                            <Button
+                                android:alpha="0"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0" />
+                            <TextView
+                                android:alpha="0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#会议时间#"/>
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/go"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#ddcfcccc" />
+
+                        <LinearLayout
+                            android:id="@+id/face_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:background="#fff">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="人脸验证" />
+                            <Button
+                                android:alpha="0"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0" />
+                            <TextView
+                                android:alpha="0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#会议时长#"/>
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/go"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#ddcfcccc" />
+
+                        <LinearLayout
+                            android:id="@+id/info"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:background="#fff">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="个人信息" />
+                            <Button
+                                android:alpha="0"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0" />
+                            <TextView
+                                android:alpha="0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#会议说明#"/>
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/go"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#ddcfcccc" />
+
+                        <LinearLayout
                             android:id="@+id/hintclick"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:textSize="15sp"
-                            android:gravity="center"
-                            android:layout_marginLeft="10dp"/>
-                        <!--<ImageView-->
-                            <!--android:layout_width="20dp"-->
-                            <!--android:layout_height="30dp"-->
-                            <!--android:src="@mipmap/jt"-->
-                            <!--android:layout_marginLeft="200dp"/>-->
-                    </LinearLayout>
-                </LinearLayout>
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:background="#fff"
+                            android:layout_marginTop="20dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="设置" />
+                            <Button
+                                android:alpha="0"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.0" />
+                            <TextView
+                                android:alpha="0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="#会议说明#"/>
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/go"/>
+                        </LinearLayout>
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:background="#ddcfcccc" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

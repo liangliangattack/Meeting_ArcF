@@ -57,4 +57,6 @@
     <color name="txt_black">#000000</color>
     <color name="button_color">#F0F8FF</color>
     <!-- -->
+    <!--mt色调-->
+    <color name="mt_blue">#2e8dff</color>
 </resources>
