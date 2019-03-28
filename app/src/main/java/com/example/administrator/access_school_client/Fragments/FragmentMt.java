@@ -81,6 +81,7 @@ public class FragmentMt extends Fragment{
         fragments.add(fragmentMSend);
         list.add("会议列表");
         list.add("发布会议");
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!这里是getChildFragmentManager需要子类Manager
         fragmentManager=getChildFragmentManager();
         viewPager.setOffscreenPageLimit(list.size());//预加载
          fragmentPagerAdapter= new FragmentPagerAdapter(fragmentManager) {

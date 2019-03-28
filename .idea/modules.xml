@@ -6,6 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/android-extend/android-extend.iml" filepath="$PROJECT_DIR$/android-extend/android-extend.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/banner/banner.iml" filepath="$PROJECT_DIR$/banner/banner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pull_to_refresh_lib/pull_to_refresh_lib.iml" filepath="$PROJECT_DIR$/pull_to_refresh_lib/pull_to_refresh_lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rollbanner/rollbanner.iml" filepath="$PROJECT_DIR$/rollbanner/rollbanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/searchview/searchview.iml" filepath="$PROJECT_DIR$/searchview/searchview.iml" />
     </modules>
   </component>
 </project>

@@ -54,9 +54,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3.0" />
                 <TextView
+                    android:id="@+id/id_meeting"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:textColor="#ccc"
                     android:text="会议号"/>
             </LinearLayout>
@@ -65,6 +66,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#ddcfcccc" />
+            <!--<LinearLayout-->
+                <!--android:id="@+id/ms_ll_mtroom"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:paddingTop="4dp"-->
+                <!--android:paddingBottom="4dp"-->
+                <!--android:background="#fff">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="会议室" />-->
+                <!--<Button-->
+                    <!--android:alpha="0"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1.0" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textColor="#ccc"-->
+                    <!--android:text="#会议室选择#"/>-->
+                <!--<ImageView-->
+                    <!--android:layout_width="25dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:src="@drawable/go"/>-->
+            <!--</LinearLayout>-->
             <LinearLayout
                 android:id="@+id/ms_ll_mtroom"
                 android:layout_width="match_parent"
@@ -86,14 +117,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0" />
                 <TextView
+                    android:id="@+id/meetingName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ccc"
                     android:text="#会议室选择#"/>
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/go"/>
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp">
+                </Spinner>
             </LinearLayout>
 
             <View
@@ -158,15 +191,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0" />
+                <EditText
+                    android:id="@+id/ms_ll_endtime_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#e9e1e1"
+                    android:background="@color/bg_white"
+                    android:textSize="13dp"
+                    android:hint="#结束时间#"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ccc"
-                    android:text="#会议时长#"/>
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/go"/>
+                    android:text="分钟"/>
             </LinearLayout>
 
             <View

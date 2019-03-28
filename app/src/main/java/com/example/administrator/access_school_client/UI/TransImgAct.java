@@ -52,7 +52,7 @@ import static com.example.administrator.access_school_client.Util.GauseBulrHelpe
 
 public class TransImgAct extends AppCompatActivity implements View.OnClickListener{
 
-    private ImageView transiv;
+    private ImageView transiv,back_ocr;
     private EditText display;
     private Button uploadbtn;
     private Button uploadalbumbtn;
@@ -85,6 +85,9 @@ public class TransImgAct extends AppCompatActivity implements View.OnClickListen
                 else{
                     Toast.makeText(this,"无查看权限",Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.back_ocr:
+                onBackPressed();
                 break;
         }
         display.setVisibility(View.GONE);
@@ -125,6 +128,7 @@ public class TransImgAct extends AppCompatActivity implements View.OnClickListen
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_transimg);
         transiv = findViewById(R.id.trans_iv);
+        back_ocr = findViewById(R.id.back_ocr);
         uploadbtn = findViewById(R.id.upload_btn);
         uploadalbumbtn = findViewById(R.id.upload_album_btn);
         display = findViewById(R.id.multitext);
@@ -134,6 +138,7 @@ public class TransImgAct extends AppCompatActivity implements View.OnClickListen
         //图片生成操作：
         uploadbtn.setOnClickListener(this);
         uploadalbumbtn.setOnClickListener(this);
+        back_ocr.setOnClickListener(this);
 
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

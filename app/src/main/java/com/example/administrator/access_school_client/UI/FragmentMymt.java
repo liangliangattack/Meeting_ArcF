@@ -1,5 +1,6 @@
 package com.example.administrator.access_school_client.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.administrator.access_school_client.Fragments.FragmentSY;
 import com.example.administrator.access_school_client.R;
 
 /**
@@ -22,16 +25,26 @@ import com.example.administrator.access_school_client.R;
 public class FragmentMymt extends Fragment {
 
     private ListView listView;
-    private String[] date = new String[]{"9月17日","9月8日"};
-    private String[] repair = new String[]{"病假","事假"};
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragment_three,null);
         listView = rootview.findViewById(R.id.listview);
-        MyLVAdapter myLVAdapter = new MyLVAdapter();
-        listView.setAdapter(myLVAdapter);
+
+        MyLVAdapter adapter1 = new MyLVAdapter();
+        listView.setAdapter(adapter1);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(getContext(),ActivityGG.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("position",position);
+            intent.putExtra("data",bundle);
+
+            intent.putExtra("position",position);
+            Log.e("position",position+"");
+            startActivity(intent);
+        });
 
         return rootview;
     }
@@ -40,7 +53,7 @@ public class FragmentMymt extends Fragment {
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
 
         @Override
@@ -55,13 +68,26 @@ public class FragmentMymt extends Fragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View rootview = inflater.inflate(R.layout.simpleitem , null);
-            TextView title = rootview.findViewById(R.id.simple_title);
-            TextView content = rootview.findViewById(R.id.simple_content);
+            View rootview;
+
+            //ListView的优化
+            if(view == null) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                rootview = inflater.inflate(R.layout.simplenewsitem2, null);
+            }
+            else{
+                rootview = view;
+            }
+            TextView title = rootview.findViewById(R.id.simple_title2);
+            TextView content = rootview.findViewById(R.id.simple_content2);
+            TextView time = rootview.findViewById(R.id.simple_time2);
+            ImageView imageView = rootview.findViewById(R.id.imageview002);
             Log.e("________","&*********"+i);
-            title.setText(repair[i]);
-            content.setText(date[i]);
+            title.setText("李华的会议");
+            content.setText("重要讲话....");
+            time.setText("2019/3/29 16：00");
+//            imageView.setImageResource(R.drawable.news1);
+
 
             return rootview;
         }

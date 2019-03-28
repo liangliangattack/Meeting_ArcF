@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.access_school_client.Fragments.FragmentSQ.Meet;
 import com.example.administrator.access_school_client.R;
 
 import java.util.List;
@@ -22,11 +23,11 @@ import java.util.List;
 
 public class LoadMoreWrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> dataList;
+    private List<Meet> dataList;
     private Context mcontext;
     private OnItemClickListener mListener;
 
-    public LoadMoreWrapperAdapter(Context mcontext , List<String> dataList , OnItemClickListener mListener) {
+    public LoadMoreWrapperAdapter(Context mcontext , List<Meet> dataList , OnItemClickListener mListener) {
         this.mcontext = mcontext;
         this.dataList = dataList;
         this.mListener =  mListener;
@@ -42,13 +43,13 @@ public class LoadMoreWrapperAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
-        recyclerViewHolder.tvtitle.setText(dataList.get(position));
-        recyclerViewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onClick(position);
-            }
-        });
+        recyclerViewHolder.tvtitle.setText(dataList.get(position).getName());
+        recyclerViewHolder.tvleader.setText(dataList.get(position).getPerson());
+        recyclerViewHolder.tvtime.setText(dataList.get(position).getTime());
+        if(dataList.get(position).getIsRun()==2){
+            recyclerViewHolder.ivpoint.setImageResource(R.mipmap.r1);
+        }
+        recyclerViewHolder.item.setOnClickListener((View view) -> mListener.onClick(position));
     }
 
     @Override

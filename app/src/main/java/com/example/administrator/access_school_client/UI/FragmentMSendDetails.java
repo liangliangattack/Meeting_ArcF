@@ -24,7 +24,7 @@ public class FragmentMSendDetails extends Fragment {
         bt_publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "加入成功！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "加入成功！请按时去会议室签到", Toast.LENGTH_SHORT).show();
             }
         });
 

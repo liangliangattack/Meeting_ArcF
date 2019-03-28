@@ -32,7 +32,7 @@ public class FragmentMList extends Fragment {
 //    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private LoadMoreWrapper loadMoreWrapper;
-    private List<String> meetinglist = new ArrayList<>();
+    private List<Meet> meetinglist = new ArrayList<Meet>();
 
     @Nullable
     @Override
@@ -51,44 +51,32 @@ public class FragmentMList extends Fragment {
         //在LoadMoreWrapperAdapter设置自定义样式
         LoadMoreWrapperAdapter loadMoreWrapperAdapter = new LoadMoreWrapperAdapter(getContext()
                 , meetinglist
-                , new LoadMoreWrapperAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int position) {
-//                Toast.makeText(getContext(), "点击了"+position, Toast.LENGTH_SHORT).show();
-                FragmentMSendDetails fragmentMSendDetails = new FragmentMSendDetails();
-                Bundle bundle = new Bundle();
-                bundle.putInt("item",position);
-                fragmentMSendDetails.setArguments(bundle);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.drawlayout_content,fragmentMSendDetails)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+                , position -> {
+                    FragmentMSendDetails fragmentMSendDetails = new FragmentMSendDetails();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("item",position);
+                    fragmentMSendDetails.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.drawlayout_content,fragmentMSendDetails)
+                            .addToBackStack(null)
+                            .commit();
+                });
         loadMoreWrapper = new LoadMoreWrapper(loadMoreWrapperAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(loadMoreWrapper);
 
         // 设置下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // 刷新数据
-                meetinglist.clear();
-                getData();
-                loadMoreWrapper.notifyDataSetChanged();
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            getData();
+            loadMoreWrapper.notifyDataSetChanged();
 
-                // 延时1s关闭下拉刷新
-                swipeRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                            //关闭隐藏的刷新bar
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    }
-                }, 1000);
-            }
+            // 延时1s关闭下拉刷新
+            swipeRefreshLayout.postDelayed(() -> {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                    //关闭隐藏的刷新bar
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }, 1000);
         });
 
         // 设置加载更多监听
@@ -103,12 +91,9 @@ public class FragmentMList extends Fragment {
                         @Override
                         public void run() {
                             //主线程刷新UI
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    getData();
-                                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-                                }
+                            getActivity().runOnUiThread(() -> {
+                                getData();
+                                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
                             });
                         }
                     }, 1000);
@@ -123,10 +108,9 @@ public class FragmentMList extends Fragment {
     }
 
     private void getData() {
-        char letter = 'A';
-        for (int i = 0; i < 26; i++) {
-            meetinglist.add(String.valueOf(letter));
-            letter++;
-        }
+        meetinglist.clear();
+        meetinglist.add(new Meet("李华的会议",2,"李华","2019.3.27 17:46"));
+        meetinglist.add(new Meet("李红的会议",1,"李红","2019.3.25 10:36"));
+        meetinglist.add(new Meet("张三的会议",1,"张三","2019.3.20 09:24"));
     }
 }

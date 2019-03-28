@@ -4,6 +4,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -12,21 +15,38 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.administrator.access_school_client.MainActivity;
 import com.example.administrator.access_school_client.R;
 import com.example.administrator.access_school_client.Service.SocketService;
+import com.example.administrator.access_school_client.UI.FastActivity;
+import com.example.administrator.access_school_client.UI.FragmentAddFriend;
 import com.example.administrator.access_school_client.UI.FragmentMmessageDetails3;
+import com.example.administrator.access_school_client.UI.FriendActivity;
+import com.example.administrator.access_school_client.UI.TransImgAct;
+import com.example.administrator.access_school_client.Util.CustomPopWindow;
+import com.example.administrator.access_school_client.Util.SharedPreferencesUtils;
+import com.example.administrator.access_school_client.Util.TimeUtil;
 import com.example.administrator.access_school_client.adapter.LoadMoreWrapperMessageAdapter;
 import com.example.administrator.access_school_client.bean.MessageEntity;
+import com.example.administrator.access_school_client.bean.User;
 import com.example.administrator.access_school_client.dao.MsgDao;
 import com.example.administrator.access_school_client.listener.EndlessRecyclerOnScrollListener;
 import com.example.administrator.access_school_client.wrapper.LoadMoreWrapper;
@@ -54,16 +74,15 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
     private RecyclerView recyclerView;
     private LoadMoreWrapper loadMoreWrapper;
     private List<MessageEntity> messageEsays = new ArrayList<MessageEntity>();
-    LoadMoreWrapperMessageAdapter loadMoreWrapperAdapter;
+    private LoadMoreWrapperMessageAdapter loadMoreWrapperAdapter;
+    private ImageView friend;
+    private ImageView mult;
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-//                    for(MessageEntity messageEsay:messageEsays){
-//                        Log.e("handle","!!!!!!!"+messageEsay.getMessage());
-//                    }
                     loadMoreWrapper.notifyDataSetChanged();
                 break;
             }
@@ -78,6 +97,51 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
 //        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_message_layout);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_message);
+        friend = view.findViewById(R.id.friend);
+        friend.setOnClickListener(v -> startActivity(new Intent(getActivity(),FriendActivity.class)));
+        mult = view.findViewById(R.id.mult);
+        //加号菜单栏
+        mult.setOnClickListener((View v)-> {
+            View v1 = LayoutInflater.from(getActivity()).inflate(R.layout.pop_layout1,null);
+
+            CustomPopWindow popWindow = new CustomPopWindow.PopupWindowBuilder(getActivity())
+                    .setView(v1)
+                    .enableBackgroundDark(true)
+                    .setBgDarkAlpha(0.8f)
+                    .setFocusable(true)
+                    .setOutsideTouchable(true)
+                    .create();
+            popWindow.showAsDropDown(mult,-30,20);
+
+            LinearLayout addfriend = v1.findViewById(R.id.tv_addfriend);
+            LinearLayout saoyisao = v1.findViewById(R.id.tv_saoyisao);
+            View.OnClickListener listener = v2 -> {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                switch (v2.getId()) {
+                    case R.id.tv_addfriend:
+                        Log.e("sd","addfriend");
+                        fragmentTransaction.replace(R.id.drawlayout_content, new FragmentAddFriend())
+                                .hide(FragmentMS2.this)
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case R.id.tv_saoyisao:
+                        Intent intent = new Intent();
+                        intent.setClass(getContext() , TransImgAct.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.tv_fastSend_pop:
+                        Intent intent2 = new Intent();
+                        intent2.setClass(getContext() , FastActivity.class);
+                        startActivity(intent2);
+                        break;
+                }
+                popWindow.dissmiss();
+            };
+            addfriend.setOnClickListener(listener);
+            saoyisao.setOnClickListener(listener);
+        });
 
         // 模拟获取数据
         getData();
@@ -89,26 +153,20 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
         recyclerView.setAdapter(loadMoreWrapper);
 
         // 设置下拉刷新
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // 刷新数据
-                //请求数据刷新
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            // 刷新数据
+            //请求数据刷新
 //                msgs.clear();
-                getData();
-                loadMoreWrapper.notifyDataSetChanged();
+            getData();
+            loadMoreWrapper.notifyDataSetChanged();
 
-                // 延时1s关闭下拉刷新
-                swipeRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
-                            //关闭隐藏的刷新bar
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                    }
-                }, 1000);
-            }
+            // 延时1s关闭下拉刷新
+            swipeRefreshLayout.postDelayed(() -> {
+                if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+                    //关闭隐藏的刷新bar
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            }, 1000);
         });
 
         // 设置加载更多监听
@@ -123,13 +181,9 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
                         @Override
                         public void run() {
                             //主线程刷新UI
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    //getData();
-                                    loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
-                                }
+                            getActivity().runOnUiThread(() -> {
+                                getData();
+                                loadMoreWrapper.setLoadState(loadMoreWrapper.LOADING_COMPLETE);
                             });
                         }
                     }, 1000);
@@ -139,7 +193,6 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
                 }
             }
         });
-
         return view;
     }
 
@@ -204,6 +257,9 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
                 Bundle bundle = new Bundle();
                 bundle.putInt("item",position);
                 bundle.putInt("who",messageEsays.get(position).getFrom());
+                //Toast.makeText(getContext(), messageEsays.get(position).toString(), Toast.LENGTH_SHORT).show();
+                bundle.putInt("that1",getPicture2());
+                bundle.putParcelable("this1",getPicture());
                 fragmentMmessageDetails3.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.drawlayout_content,fragmentMmessageDetails3)
@@ -213,37 +269,122 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
         });
     }
 
+    //设置对方的头像
+    private int getPicture2() {
+        if(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")) == 1){
+            return R.drawable.lihua0;
+        }return R.drawable.lihua1;
+    }
+
+    //设置自己的头像
+    private Bitmap getPicture() {
+        String userImagePath = SharedPreferencesUtils.getUserImagePath("userimage");
+        Bitmap bitmap = null;
+        if(!(userImagePath.equals("error"))) {
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            bitmap =  BitmapFactory.decodeFile(userImagePath, opts);
+        }
+        return bitmap;
+    }
+
     private void getData() {
         messageEsays.clear();
-//        MessageEntity message1 = new MessageEntity();
-//        message1.setFrom(0);
-//        message1.setMessage("Hello");
-//        message1.setTime("2019/1/30 10:48");
-//        messageEsays.add(message1);
-//
-//        MessageEntity message2 = new MessageEntity();
-//        message2.setFrom(1);
-//        message2.setMessage("what`s your name?");
-//        message2.setTime("2019/1/30 10:48");
-//        messageEsays.add(message2);
-//
-//        MessageEntity message3 = new MessageEntity();
-//        message3.setFrom(2);
-//        message3.setMessage("过年");
-//        message3.setTime("2019/1/30 10:48");
-//        messageEsays.add(message3);
-
-
+        //创造模拟数据
+//        createData();
 //        数据库中查询数据
         MsgDao msgDao = new MsgDao(getActivity());
-        //默认为小米的账户
-        List list = msgDao.getSimpleHistoryMessage(1);
+//        msgDao.addUser(new User(0,
+//                "梨花",
+//                R.drawable.user,
+//                "我很帅",
+//                TimeUtil.getTime(System.currentTimeMillis())));
+//        msgDao.addUser(new User(1,
+//                "中二青年",
+//                R.drawable.user,
+//                "我更加帅",
+//                TimeUtil.getTime(System.currentTimeMillis())));
+
+        List list = msgDao.getSimpleHistoryMessage(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
         for(int flag = 0;flag<list.size();flag++){
             MessageEntity message = (MessageEntity) list.get(flag);
+            if(message.getFrom() == Integer.parseInt(SharedPreferencesUtils.getUserName("userId"))){
+                message.setFrom(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
+            }
             messageEsays.add(message);
         }
         handler.sendEmptyMessage(0);
 
+    }
+
+    private void createData() {
+        MsgDao msgDao = new MsgDao(getActivity());
+
+        MessageEntity message = new MessageEntity();
+        message.setTime(TimeUtil.getTime(System.currentTimeMillis()));
+        message.setFrom(0);
+        message.setTo(1);
+        message.setComeMsg(isCome(message.getFrom()));
+        message.setMessage("hello 1 ! test1");
+        msgDao.addMessage(message);
+
+        MessageEntity message2 = new MessageEntity();
+        message2.setTime(TimeUtil.getTime(System.currentTimeMillis()));
+        message2.setFrom(1);
+        message2.setTo(0);
+        message2.setComeMsg(isCome(message2.getFrom()));
+        message2.setMessage("hello 0 ! test2");
+        msgDao.addMessage(message2);
+        MessageEntity lastmessage = new MessageEntity();
+        lastmessage.setTime(TimeUtil.getTime(System.currentTimeMillis()));
+        lastmessage.setFrom(1);
+        lastmessage.setTo(0);
+        lastmessage.setComeMsg(isCome(message2.getFrom()));
+        lastmessage.setMessage("hello 0 ! test2");
+        lastMessage(lastmessage);
+
+        MessageEntity message3 = new MessageEntity();
+        message3.setTime(TimeUtil.getTime(System.currentTimeMillis()));
+        message3.setFrom(0);
+        message3.setTo(1);
+        message3.setComeMsg(isCome(message3.getFrom()));
+        message3.setMessage("hello 1 ! test2");
+        msgDao.addMessage(message3);
+        MessageEntity lastmessage2 = new MessageEntity();
+        lastmessage2.setTime(TimeUtil.getTime(System.currentTimeMillis()));
+        lastmessage2.setFrom(0);
+        lastmessage2.setTo(1);
+        lastmessage2.setComeMsg(isCome(message3.getFrom()));
+        lastmessage2.setMessage("hello 1 ! test2");
+        lastMessage(lastmessage2);
+    }
+
+    private void lastMessage(MessageEntity messageEntity) {
+        MsgDao msgDao = new MsgDao(getActivity());
+        //查询最新消息是否有历史消息
+        List<MessageEntity> messageEntities = msgDao.queryLastMessage(1);
+        if(messageEntities.size() != 0) {
+            msgDao.updateLastMessage(messageEntity , 1);
+        }else{
+            msgDao.addLastMessage(messageEntity);
+        }
+    }
+
+    private int isCome(int from) {
+        Integer id = Integer.parseInt(SharedPreferencesUtils.getUserName("userId"));
+        if(id == 1){
+            if( from == 0)
+                return 1;
+            return 0;
+        }
+        if(id == 0) {
+            if (from == 1) {
+                return 1;
+            }
+            return 0;
+        }
+        else {
+            return -1;
+        }
     }
 
     @Override
@@ -293,4 +434,26 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.main,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_addfriend:
+                Toast.makeText(getActivity(),"添加好友", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_setting:
+//                Toast.makeText(getActivity(),"设置", Toast.LENGTH_SHORT).show();
+                break;
+//            case R.id.menu_exit:
+//                Toast.makeText(this,"退出", Toast.LENGTH_SHORT).show();
+//                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

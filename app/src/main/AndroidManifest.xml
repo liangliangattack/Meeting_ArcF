@@ -50,11 +50,15 @@
         <activity android:name=".charts.TempoChartActivity" />
         <activity android:name=".charts.LineColumnDependencyActivity" />
         <activity android:name=".charts.SpeedChartActivity" />
+        <activity android:name=".UI.SearchDemoActivity"/>
+        <activity android:name=".UI.FriendDetailActivity"/>
 
         <service
             android:name=".Service.SocketService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".UI.FriendActivity"></activity>
     </application>
 
 </manifest>

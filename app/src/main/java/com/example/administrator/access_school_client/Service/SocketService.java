@@ -88,7 +88,9 @@ public class SocketService extends Service {
             public void run() {
                 try {
                     boolean isReceiving = true;
-                    socket = new Socket("192.168.1.7",1234);
+//                    socket = new Socket("192.168.1.7",1234);
+                    socket = new Socket("192.168.137.200",1234);
+                    Log.e("sss","后台连接");
                     //这个时候soocket初始化完成 连接完成
                     isConnectSocket = true;
 
@@ -127,7 +129,7 @@ public class SocketService extends Service {
     }
 
     public interface MyServiceCallBack{
-        public void onDataChanged(String data);
+        void onDataChanged(String data);
     }
 
 }

@@ -53,4 +53,14 @@ public class MessageEntity {
         this.message = message;
     }
 
+    @Override
+    public String toString() {
+        return "MessageEntity{" +
+                "time='" + time + '\'' +
+                ", from=" + from +
+                ", to=" + to +
+                ", message='" + message + '\'' +
+                ", isComeMsg=" + isComeMsg +
+                '}';
+    }
 }

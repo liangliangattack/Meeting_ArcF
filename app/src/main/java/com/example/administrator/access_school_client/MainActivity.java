@@ -28,6 +28,7 @@ import com.example.administrator.access_school_client.Fragments.FragmentWS;
 import com.example.administrator.access_school_client.Fragments.FragmentMt;
 import com.example.administrator.access_school_client.Fragments.FragmentWD;
 import com.example.administrator.access_school_client.UI.FastActivity;
+import com.example.administrator.access_school_client.Util.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,12 +74,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         NotificationCompat.Builder notifyBuilder =
                 new NotificationCompat.Builder( this ).setContentTitle("门禁识别结果")
                         .setContentText("识别成功！")
-                        .setSmallIcon( R.drawable.zhisu)
+                        .setSmallIcon(R.mipmap.icon)
                         // 点击消失
                         .setAutoCancel( true )
                         // 设置该通知优先级
                         .setPriority( Notification.PRIORITY_MAX )
-                        .setLargeIcon( BitmapFactory.decodeResource(getResources(), R.drawable.zhisu ) )
+                        .setLargeIcon( BitmapFactory.decodeResource(getResources(), R.mipmap.icon ) )
                         // 通知首次出现在通知栏，带上升动画效果的
                         .setWhen( System.currentTimeMillis())
                         // 通知产生的时间，会在通知信息里显示
@@ -94,10 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this)
                 .setContentTitle("门禁识别结果")
                 .setContentText("识别成功！")
-                .setSmallIcon(R.drawable.zhisu)
+                .setSmallIcon(R.mipmap.icon)
                 .setLargeIcon(
                         BitmapFactory.decodeResource(getResources(),
-                                R.drawable.zhisu));
+                                R.mipmap.icon));
         // 2.点击通知栏的跳转
         Intent intent = new Intent(this, FastActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
@@ -117,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_main);
+
+//        SharedPreferencesUtils.setUserName("userId",)
 
         initView();
 
@@ -231,7 +234,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view){
-
         switch(view.getId()){
             case R.id.ll_shouye:
                 setSelected(0);

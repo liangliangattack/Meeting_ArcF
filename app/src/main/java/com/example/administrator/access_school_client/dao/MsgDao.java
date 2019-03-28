@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.administrator.access_school_client.DBUtil.DBHepler;
 import com.example.administrator.access_school_client.bean.MessageEntity;
+import com.example.administrator.access_school_client.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +30,8 @@ public class MsgDao {
     public List<MessageEntity> getSimpleHistoryMessage(int who){
         //查询相应from
         List<MessageEntity> messageEntities = new ArrayList<MessageEntity>();
-        String sql = "select * from message where fromwho in " +
-                "(select DISTINCT (fromwho or towho) as who from message where who != ?)" +
-                "or towho in " +
-                "(select DISTINCT (fromwho or towho) as who from message where who != ?)" +
-                " order by time asc limit 0,1";
-        Cursor cursor = sqLiteDatabase.rawQuery(sql , new String[]{});
+        String sql = "select * from lastmessage where towho = ? or fromwho= ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql , new String[]{String.valueOf(who),String.valueOf(who)});
         while(cursor.moveToNext()){
             MessageEntity messageEntity = new MessageEntity();
             messageEntity.setFrom(cursor.getInt(cursor.getColumnIndex("fromwho")));
@@ -100,5 +97,77 @@ public class MsgDao {
                 messageEntity.getTime(),
                 String.valueOf(messageEntity.isComeMsg())
         });
+    }
+
+    //lastmessage
+
+    public List<MessageEntity> queryLastMessage(int index){
+        List<MessageEntity> messageEntities = new ArrayList<MessageEntity>();
+        String index2 = String.valueOf(index);
+        String sql = "select * from lastmessage where  towho = ? or fromwho= ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql,new String[]{index2 , index2});
+        while(cursor.moveToNext()){
+            MessageEntity messageEntity = new MessageEntity();
+            messageEntity.setFrom(cursor.getInt(cursor.getColumnIndex("fromwho")));
+            messageEntity.setTo(cursor.getInt(cursor.getColumnIndex("towho")));
+            messageEntity.setMessage(cursor.getString(cursor.getColumnIndex("msg")));
+            messageEntity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            messageEntity.setComeMsg(cursor.getInt(cursor.getColumnIndex("isComemsg")));
+            messageEntities.add(messageEntity);
+        }
+        return messageEntities;
+    }
+    public void addLastMessage(MessageEntity messageEntity){
+        String sql = "insert into lastmessage(fromwho,towho,msg,time,isComemsg) values(?,?,?,?,?)";
+        sqLiteDatabase.execSQL(sql,new String[]{String.valueOf(messageEntity.getFrom()),
+                String.valueOf(messageEntity.getTo()),
+                messageEntity.getMessage(),
+                messageEntity.getTime(),
+                String.valueOf(messageEntity.isComeMsg())
+        });
+    }
+    public void updateLastMessage(MessageEntity messageEntity , int index){
+        String index2 = String.valueOf(index);
+        String sql = "update lastmessage set fromwho = ?," +
+                "towho = ?, msg = ?,time = ?,isComemsg = ?" +
+                "where towho = ? or fromwho= ?";
+        sqLiteDatabase.execSQL(sql,new String[]{String.valueOf(messageEntity.getFrom()),
+                String.valueOf(messageEntity.getTo()),
+                messageEntity.getMessage(),
+                messageEntity.getTime(),
+                String.valueOf(messageEntity.isComeMsg()),
+                index2,
+                index2
+        });
+    }
+
+
+    //user
+    public void addUser(User user){
+        String sql = "insert into user(u_id,name,picture,description,birthday) values(?,?,?,?,?)";
+        sqLiteDatabase.execSQL(sql,new String[]{String.valueOf(user.getId()),
+                user.getName(),
+                String.valueOf(user.getPicture()),
+                user.getDescription(),
+                user.getBirthday()
+        });
+    }
+
+    //查询id不等于的User
+    public List<User> queryUser(int id){
+        List<User> users = new ArrayList<User>();
+        String index2 = String.valueOf(id);
+        String sql = "select * from user where  id != ?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql,new String[]{index2 });
+        while(cursor.moveToNext()){
+            User user = new User();
+            user.setId(cursor.getInt(cursor.getColumnIndex("u_id")));
+            user.setName(cursor.getString(cursor.getColumnIndex("name")));
+            user.setPicture(cursor.getInt(cursor.getColumnIndex("picture")));
+            user.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+            user.setBirthday(cursor.getString(cursor.getColumnIndex("birthday")));
+            users.add(user);
+        }
+        return users;
     }
 }

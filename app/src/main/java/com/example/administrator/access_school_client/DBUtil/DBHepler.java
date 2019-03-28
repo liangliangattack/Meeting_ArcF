@@ -32,6 +32,28 @@ public class DBHepler extends SQLiteOpenHelper{
                 "isComemsg Integer)";
 
         db.execSQL(sql);
+
+        //最新消息表
+        String sql2 = "create table if not exists lastmessage(" +
+                "id Integer primary key AUTOINCREMENT not null ," + //主键id
+                "fromwho Integer," +//发送者id
+                "towho Integer," +//目标id
+                "msg varchar(50)," +//发送时间
+                "time datetime," +
+                "isComemsg Integer)";
+
+        db.execSQL(sql2);
+
+        //用户信息
+        String sql3 = "create table if not exists user(" +
+                "id Integer primary key AUTOINCREMENT not null ," + //主键id
+                "u_id Integer,"+
+                "name varchar(10)," +//名字
+                "picture Integer," +
+                "description varchar(50)," +//个性签名
+                "birthday datetime)";//生日
+
+        db.execSQL(sql3);
     }
 
     @Override

@@ -18,9 +18,8 @@ import android.widget.Toast;
 import com.example.administrator.access_school_client.Application;
 import com.example.administrator.access_school_client.MainActivity;
 import com.example.administrator.access_school_client.R;
+import com.example.administrator.access_school_client.Util.SharedPreferencesUtils;
 import com.google.gson.Gson;
-
-
 
 import net.tsz.afinal.FinalHttp;
 import net.tsz.afinal.http.AjaxCallBack;
@@ -76,6 +75,14 @@ public class LoginActivity extends AppCompatActivity {
         login1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                SharedPreferencesUtils.clear();
+                if(phone.getText().toString().equals("18268580672")){
+                    SharedPreferencesUtils.setUserName("userId",String.valueOf(1));
+                    SharedPreferencesUtils.setUserName("username",String.valueOf("梨花"));
+                }else{
+                    SharedPreferencesUtils.setUserName("userId",String.valueOf(0));
+                    SharedPreferencesUtils.setUserName("username",String.valueOf("李华"));
+                }
 /*                FinalHttp post = new FinalHttp();
                 AjaxParams params = new AjaxParams();
                 params.put("phone",phone.getText().toString());

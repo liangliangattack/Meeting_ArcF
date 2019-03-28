@@ -10,10 +10,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -36,7 +39,9 @@ import com.example.administrator.access_school_client.UI.FragmentInfoPage;
 import com.example.administrator.access_school_client.UI.FragmentMymt;
 import com.example.administrator.access_school_client.UI.FragmentGotomt;
 import com.example.administrator.access_school_client.UI.HistoryActivity;
+import com.example.administrator.access_school_client.Util.BitmapBlurUtil;
 import com.example.administrator.access_school_client.Util.CircleImageView;
+import com.example.administrator.access_school_client.Util.GauseBulrHelper;
 import com.example.administrator.access_school_client.Util.PermissionUtil;
 import com.example.administrator.access_school_client.Util.SharedPreferencesUtils;
 
@@ -106,7 +111,7 @@ public class FragmentWD extends Fragment {
             blur(getContext(),bitmap);
         }
         else {
-            //GauseBulrHelper:
+//            GauseBulrHelper:
 //        bitmap = GauseBulrHelper.blur(getContext(),bitmap);
 //        userlinearlayout.setBackground(new BitmapDrawable(bitmap));
 
@@ -121,95 +126,76 @@ public class FragmentWD extends Fragment {
         //imageview.setImageBitmap(bitmap);
         //imageview.setImageDrawable(circleImageView.getDrawable());
         //imageview.setImageDrawable(drawable);
-        hintclick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "suprise", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getActivity(), HistoryActivity.class));
-            }
+//        hintclick.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getContext(), "suprise", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(getActivity(), HistoryActivity.class));
+//            }
+//        });
+
+        mymt.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.drawlayout_content,new FragmentMymt());
+            transaction.addToBackStack(null).commit();
         });
 
-        mymt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.drawlayout_content,new FragmentMymt());
-                transaction.addToBackStack(null).commit();
-            }
+        gotomt.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.drawlayout_content,new FragmentGotomt());
+            transaction.addToBackStack(null).commit();
         });
 
-        gotomt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.drawlayout_content,new FragmentGotomt());
-                transaction.addToBackStack(null).commit();
-            }
+        faceinput.setOnClickListener(view -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.drawlayout_content,new FaceInputFm());
+            transaction.addToBackStack(null).commit();
         });
 
-        faceinput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.drawlayout_content,new FaceInputFm());
-                transaction.addToBackStack(null).commit();
-            }
+        infopage.setOnClickListener(v -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.drawlayout_content,new FragmentInfoPage());
+            transaction.addToBackStack(null).commit();
         });
 
-        infopage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.drawlayout_content,new FragmentInfoPage());
-                transaction.addToBackStack(null).commit();
-            }
-        });
-
-        userimage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                //Toast.makeText(getContext(),"长按",Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("头像");
-                builder.setItems(new String[]{"拍照上传", "相册", "取消"}, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            default:
-                                break;
-                            case 0:
-                                //打开相机
-                                if(PermissionUtil.hasCameraPermission(getActivity())) {
-                                    takePhoto();
-                                    Toast.makeText(getContext(),"打开相机",Toast.LENGTH_SHORT).show();
-                                }
-                                else{
-                                    Toast.makeText(getContext(),"无拍照权限",Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                            case 1:
-                                //打开相册
-                                if(PermissionUtil.hasReadExternalStoragePermission(getActivity())) {
-                                    pickPhoto();
-                                }
-                                else{
-                                    Toast.makeText(getContext(),"无查看权限",Toast.LENGTH_SHORT).show();
-                                }
-                                break;
-                            case 2:
-                                return;
-                            case 3:
-                                break;
+        userimage.setOnLongClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("头像");
+            builder.setItems(new String[]{"拍照上传", "相册", "取消"}, (dialogInterface, i) -> {
+                switch (i) {
+                    default:
+                        break;
+                    case 0:
+                        //打开相机
+                        if(PermissionUtil.hasCameraPermission(getActivity())) {
+                            takePhoto();
+                            Toast.makeText(getContext(),"打开相机",Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
-                builder.create().show();
-                return false;
-            }
+                        else{
+                            Toast.makeText(getContext(),"无拍照权限",Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case 1:
+                        //打开相册
+                        if(PermissionUtil.hasReadExternalStoragePermission(getActivity())) {
+                            pickPhoto();
+                        }
+                        else{
+                            Toast.makeText(getContext(),"无查看权限",Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case 2:
+                        return;
+                    case 3:
+                        break;
+                }
+            });
+            builder.create().show();
+            return false;
         });
         return rootview;
     }
@@ -217,30 +203,30 @@ public class FragmentWD extends Fragment {
 
     //自定义方法实现模糊
     static void blur(Context context, final Bitmap bitmap) {
-//        if (bitmap != null) {
-//            //模糊处理
-//            BitmapBlurUtil.addTask(bitmap, new Handler() {
-//                @Override
-//                public void handleMessage(Message msg) {
-//                    super.handleMessage(msg);
-//                    Drawable drawable = (Drawable) msg.obj;
-//                    //设置模糊背景图片
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                        userlinearlayout.setBackground(drawable);
-//                    }
-//                    //imageview.setImageDrawable(drawable);
-//                    bitmap.recycle();
-//                }
-//            });
-//        }
+        if (bitmap != null) {
+            //模糊处理
+            BitmapBlurUtil.addTask(bitmap, new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    Drawable drawable = (Drawable) msg.obj;
+                    //设置模糊背景图片
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        userlinearlayout.setBackground(drawable);
+                    }
+                    //imageview.setImageDrawable(drawable);
+                    bitmap.recycle();
+                }
+            });
+        }
 
         //GauseBulrHelper：
-//        if(bitmap!=null){
-//            Bitmap blur = GauseBulrHelper.blur(context, bitmap);
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-//                userlinearlayout.setBackground(new BitmapDrawable(blur));
-//            }
-//        }
+        if(bitmap!=null){
+            Bitmap blur = GauseBulrHelper.blur(context, bitmap);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                userlinearlayout.setBackground(new BitmapDrawable(blur));
+            }
+        }
     }
 
     public void pickPhoto() {

@@ -23,7 +23,7 @@
 	    <RelativeLayout
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-			android:background="#9fbedc">
+			android:background="#d9d9d9">
 	        
 	        <ImageView
 	            android:id="@+id/iv_userhead" 
@@ -54,8 +54,9 @@
 	            android:layout_below="@id/iv_userhead"
 	            android:layout_alignParentRight="true"
 	            android:layout_toRightOf="@id/tv_chatcontent"
-	            android:textSize="15sp"
+	            android:textSize="10sp"
+				android:text="我"
 	            android:gravity="center"
-	            android:textColor="#818181"/>
+	            android:textColor="#fff"/>
 	    </RelativeLayout>
 </LinearLayout>

@@ -11,17 +11,11 @@
         android:background="@color/mt_blue"
         android:gravity="center">
         <ImageView
-            android:alpha="0"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/back"/>
-        <TextView
-            android:alpha="0"
-            android:id="@+id/ch_tv_back"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:text="返回"
-            android:textColor="#fff"
+            android:id="@+id/mult"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/mult"
             android:gravity="center_vertical"/>
         <Button
             android:alpha="0"
@@ -37,7 +31,14 @@
             android:alpha="0"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.0" />
+            android:layout_weight="0.6" />
+        <ImageView
+            android:id="@+id/friend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/friend"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"/>
     </LinearLayout>
 
     // 用SwipeRefreshLayout包裹RecyclerView

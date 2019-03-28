@@ -11,22 +11,23 @@
         android:layout_alignParentTop="true"
         android:background="#fff">
 
-        <Button
+        <ImageView
             android:id="@+id/chat_title_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/back"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
-            android:paddingLeft="7dp"
-            android:text="返回"
-            android:background="#fff"/>
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:id="@+id/chat_title_nick"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:text="凉凉"
-            android:layout_centerHorizontal="true" />
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:textSize="17sp"
+            android:text="凉凉" />
 
         <TextView
             android:id="@+id/chat_title_devide_state"
@@ -36,6 +37,15 @@
             android:layout_below="@+id/chat_title_nick"
             android:text="在线"
             />
+
+        <ImageView
+            android:id="@+id/detail_friend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/threepoint"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -55,15 +65,15 @@
             android:background="@drawable/chat_bottom_edit_shape">
             <requestFocus />
         </EditText>
-        <EditText
-            android:id="@+id/you"
-            android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_weight="4"
-            android:hint="你是谁"
-            android:background="@drawable/chat_bottom_edit_shape">
-            <requestFocus />
-        </EditText>
+        <!--<EditText-->
+            <!--android:id="@+id/you"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="44dp"-->
+            <!--android:layout_weight="4"-->
+            <!--android:hint="你是谁"-->
+            <!--android:background="@drawable/chat_bottom_edit_shape">-->
+            <!--<requestFocus />-->
+        <!--</EditText>-->
 
         <Button
             android:id="@+id/ms_details_btn_send2"
@@ -79,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        android:background="#9fbedc"
+        android:background="#d9d9d9"
         android:layout_above="@+id/chat_bottom_linear"
         android:layout_below="@+id/chat_title_relative"/>
 </RelativeLayout>

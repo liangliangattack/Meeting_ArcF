@@ -56,7 +56,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataCallBack = (DataCallBack) getArguments().getSerializable("datcallback");
+//        dataCallBack = (DataCallBack) getArguments().getSerializable("datcallback");
     }
 
     //实现OnTimeSetListener的onTimeSet方法

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,11 @@ import android.widget.Toast;
 import com.example.administrator.access_school_client.MainActivity;
 import com.example.administrator.access_school_client.R;
 import com.example.administrator.access_school_client.Service.SocketService;
+import com.example.administrator.access_school_client.Util.SharedPreferencesUtils;
+import com.example.administrator.access_school_client.Util.TimeUtil;
 import com.example.administrator.access_school_client.adapter.MyMsgAdapter;
 import com.example.administrator.access_school_client.bean.MessageEntity;
+import com.example.administrator.access_school_client.bean.User;
 import com.example.administrator.access_school_client.dao.MsgDao;
 
 import org.json.JSONException;
@@ -55,7 +60,12 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
     private EditText message;
     private EditText display;
     private TextView chat_title_nick;
-    private EditText you;
+    private ImageView chat_title_back;
+    private ImageView detail_friend;
+//    private EditText you;
+
+    private int that1 = 0;//对方的头像
+    private Bitmap this1 = null;//自己的头像
 
     private List<MessageEntity> messageEntities = new ArrayList<MessageEntity>();
     private MyMsgAdapter myMsgAdapter;
@@ -102,20 +112,26 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
 //        display = (EditText) view.findViewById(R.id.ms_details_et_display);
         chat_content_list = (ListView)view.findViewById(R.id.chat_content_list);
         chat_title_nick = view.findViewById(R.id.chat_title_nick);
-        you = view.findViewById(R.id.you);
+        chat_title_back = view.findViewById(R.id.chat_title_back);
+        chat_title_back.setOnClickListener(this);
+        detail_friend = view.findViewById(R.id.detail_friend);
+        detail_friend.setOnClickListener(this);
+//        you = view.findViewById(R.id.you);
 
-//        chat_title_nick.setText();
+        MsgDao msgDao1 = new MsgDao(getActivity());
+        List<User> users = msgDao1.queryUser
+                (Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
+        chat_title_nick.setText(users.get(0).getName());
+
         pos = getArguments().getInt("item");
         who = getArguments().getInt("who");
+        that1 = getArguments().getInt("that1");
+        this1 = getArguments().getParcelable("this1");
         //msg需要初始化之前的消息 将以前的聊天数据进行回显
         //请求后台数据
         getHistoryMessageData(pos);
 
-        //createViewde时候初始化Socket
-//        initScoket();
-
-        //Toast.makeText(getContext(), "Adapter初始化一次", Toast.LENGTH_SHORT).show();
-        myMsgAdapter = new MyMsgAdapter(getActivity(),messageEntities);
+        myMsgAdapter = new MyMsgAdapter(getActivity(),messageEntities , that1 , this1 , chat_title_nick.getText().toString());
         chat_content_list.setAdapter(myMsgAdapter);
         chat_content_list.setSelection(messageEntities.size()-1);
 
@@ -130,29 +146,6 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
 
         messageEntities = msgDao.getHistoryMessage(getWho());
         Log.e("Details3get",""+messageEntities.size());
-//        MessageEntity messageEntity = new MessageEntity();
-//        messageEntity.setFrom(2);
-//        messageEntity.setTo(1);
-//        messageEntity.setMessage("Hello");
-//        messageEntity.setTime("2019/1/30 10:48");
-//        messageEntity.setComeMsg(1);
-//        messageEntities.add(messageEntity);
-//
-//        MessageEntity messageEntity2 = new MessageEntity();
-//        messageEntity2.setFrom(2);
-//        messageEntity2.setTo(1);
-//        messageEntity2.setMessage("Hello");
-//        messageEntity2.setTime("2019/1/30 10:48");
-//        messageEntity2.setComeMsg(0);
-//        messageEntities.add(messageEntity2);
-//
-//        MessageEntity messageEntity3 = new MessageEntity();
-//        messageEntity3.setFrom(2);
-//        messageEntity3.setTo(1);
-//        messageEntity3.setTime("2019/1/30 10:48");
-//        messageEntity3.setComeMsg(1);
-//        messageEntity3.setMessage("what`s your name?");
-//        messageEntities.add(messageEntity3);
 
     }
 
@@ -200,9 +193,8 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.startScoket:
-                //初始化
-//                initScoket();
+            case R.id.chat_title_back:
+                getActivity().onBackPressed();
                 break;
             case R.id.ms_details_btn_send2:
                 if(isConnectSocket) {
@@ -210,6 +202,10 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
                 }else{
                     Toast.makeText(getContext(), "抱歉，请先连接服务器！", Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.detail_friend:
+                //进入好友界面
+                startActivity(new Intent(getActivity(),FriendDetailActivity.class));
                 break;
                 default:break;
         }
@@ -237,13 +233,16 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
                 //将自己发出的消息写入消息队列
                 MessageEntity messagesend = new MessageEntity();
                 messagesend.setComeMsg(0);
-                messagesend.setTime(getTime(System.currentTimeMillis()));
+                messagesend.setTime(TimeUtil.getTime(System.currentTimeMillis()));
                 //这个from值需要确认................
-                messagesend.setFrom(Integer.parseInt(you.getText().toString()));
+                messagesend.setFrom(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
                 messagesend.setTo(getWho());
+                Log.e("发送位置",""+getWho());
                 messagesend.setMessage(message.getText().toString());
                 //将自己发送出去的消息存到数据库中
                 msgDao.addMessage(messagesend);
+                lastMessage(messagesend);
+
                 //将自己发送出去的消息更新到List集合 并且通知Adapter更新UI
                 messageEntities.add(messagesend);
 
@@ -254,7 +253,16 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
                 e.printStackTrace();
             }
         }
+    }
 
+    private void lastMessage(MessageEntity messageEntity) {
+        //查询最新消息是否有历史消息
+        List<MessageEntity> messageEntities = msgDao.queryLastMessage(1);
+        if(messageEntities.size() != 0) {
+            msgDao.updateLastMessage(messageEntity , 1);
+        }else{
+            msgDao.addLastMessage(messageEntity);
+        }
     }
 
     @Override
@@ -264,32 +272,31 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
         socketService = binder.getService();
         isConnectSocket = socketService.isConnectSocket;
         writer = socketService.writer;
-        //设置回调
-        socketService.setMyServiceCallBack(new SocketService.MyServiceCallBack() {
-            @Override
-            public void onDataChanged(String data) {
-                Log.e("onServiceConnected!","onServiceConnected");
-                JSONObject json = null;
-                try {
-                    json = new JSONObject(data);
+        //设置回调 接受信息的数据
+        socketService.setMyServiceCallBack(data -> {
+            Log.e("onServiceConnected!","onServiceConnected");
+            JSONObject json = null;
+            try {
+                json = new JSONObject(data);
 
-                    //将收到的消息写入消息队列
-                    MessageEntity messageCome = new MessageEntity();
-                    messageCome.setComeMsg(1);
-                    messageCome.setTime(json.getString("time"));
-                    //将发过来的to消息封装到from里面 Adapter里面用来显示发送者的name
-                    messageCome.setFrom(json.getInt("from"));
-                    messageCome.setTo(json.getInt("to"));
-                    messageCome.setMessage(json.getString("msg"));
-                    msgDao.addMessage(messageCome);
+                //将收到的消息写入消息队列
+                MessageEntity messageCome = new MessageEntity();
+                messageCome.setComeMsg(1);
+                messageCome.setTime(json.getString("time"));
+                //将发过来的to消息封装到from里面 Adapter里面用来显示发送者的name
+                messageCome.setFrom(json.getInt("from"));
+                messageCome.setTo(json.getInt("to"));
+                messageCome.setMessage(json.getString("msg"));
+                Log.e("发送位置",""+messageCome.toString());
+                msgDao.addMessage(messageCome);
+                lastMessage(messageCome);
 
-                    //更新   messageEntities!!!!!!!
-                    messageEntities.add(messageCome);
-                    //替换之后通知handle更新UI
-                    handler.obtainMessage(0,messageCome).sendToTarget();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                //更新   messageEntities!!!!!!!
+                messageEntities.add(messageCome);
+                //替换之后通知handle更新UI
+                handler.obtainMessage(0,messageCome).sendToTarget();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -349,15 +356,4 @@ public class FragmentMmessageDetails3 extends Fragment implements View.OnClickLi
         public void callBack(int pos, MessageEntity messageEsay);
     }
 
-    /**
-     * 得到自己定义的时间格式的样式
-     * @param millTime
-     * @return
-     */
-    private String getTime( long millTime) {
-        Date d = new Date(millTime);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
-        System. out.println(sdf.format(d));
-        return sdf.format(d);
-    }
 }

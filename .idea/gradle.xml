@@ -11,6 +11,9 @@
             <option value="$PROJECT_DIR$/android-extend" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/banner" />
+            <option value="$PROJECT_DIR$/pull_to_refresh_lib" />
+            <option value="$PROJECT_DIR$/rollbanner" />
+            <option value="$PROJECT_DIR$/searchview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

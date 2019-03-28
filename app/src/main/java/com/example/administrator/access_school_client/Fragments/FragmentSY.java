@@ -17,10 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +29,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.administrator.access_school_client.MainActivity;
 import com.example.administrator.access_school_client.Model.BannerModel;
 import com.example.administrator.access_school_client.UI.ActivityGG;
 import com.example.administrator.access_school_client.UI.AudioActivity;
@@ -37,8 +38,12 @@ import com.example.administrator.access_school_client.UI.FastActivity;
 import com.example.administrator.access_school_client.UI.Fragmentnews;
 import com.example.administrator.access_school_client.UI.SchoolActivitiesFrament;
 import com.example.administrator.access_school_client.UI.TransImgAct;
+import com.example.administrator.access_school_client.Util.DataC;
+import com.example.administrator.access_school_client.widget.Lamp.LampView;
 import com.example.administrator.access_school_client.xmarqueeview.XMarqueeView;
 import com.example.administrator.access_school_client.xmarqueeview.XMarqueeViewAdapter;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.sivin.Banner;
 import com.sivin.BannerAdapter;
 import com.example.administrator.access_school_client.R;
@@ -47,47 +52,40 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * ..
  * author:liangliangattack 1364744931@.qq.com
  * Administrator on 2018/7/18 16:17.
  */
-public class FragmentSY extends Fragment implements View.OnClickListener{
+public class FragmentSY extends Fragment implements View.OnClickListener ,
+        PullToRefreshBase.OnRefreshListener2{
 
-    private Banner banner;
-    private List<BannerModel> mDatas;
-    private TextView activity;
-    private TextView shop;
-    private TextView fast;
-//    TextView record;
-    private TextView news;
-    private int mYear;
-    private int mMonth;
-    private int mDay;
-    private int mWay;
-    private int mHour;
-    private int mMinute;
-    private ListView gglv;
-
-    private String[] date = new String[]{"","2018-9-14","2018-09-12","2018-09-10","2018-09-09","2018-09-08","2018-04-09"};
-    private String[] title1 = new String[]{"关于加强校园安全管理的通告",
-            "关于国庆长假的通知",
-            "开学期间网络维护通知",
-            "停水通知",
-            "",
-            "关于成教学院办公地点搬迁的通告"};
-    private String[] content1 = new String[]{"1.加强校门管理，严格执行门卫登记制度，认真核实进校人员的身份；2.校外因公因进校的人员须事先联系好被访人员，并经门卫核实方可进入校；3.校园内的公共财产一律不得破坏，如有则按登记价格两倍进行赔偿；",
-            "国庆长假即将来临，按照国家规定，结合我校实际情况，通知如下：1.放假时间：10月1日至10月7日，请同学们离校前做好登记。",
-            "开学了，为了更好的网络提供学习，特此通知近日开始网络维护，请大家做好准备。",
-            "因某些原因，近日停水两天",
-            "",
-            "    因学校发展需要，成教学院现已搬迁至集团大楼办公（宁波市海曙区学院路899号）。因搬迁给大家带来的不便，敬请谅解！\\n\" +\n" +
-            "            \"       办公室一：集团大楼211-1 电话：88054391\\n\" +\n" +
-            "            \"       办公室二：集团大楼211-2 电话：88054871\\n\" +\n" +
-            "            \"       办公室三：集团大楼209   电话：88054293\\n\" +\n" +
-            "            \"       报名咨询办公室：3号楼101 电话：87328973、87306739\\n\" +\n" +
-            "            \"       特此通告。"};
-    private int[] picture = new int[]{R.drawable.schoolsafe,R.drawable.guoqing,R.drawable.net,R.drawable.waterstop,R.drawable.bg,R.drawable.bg};
+    //跑马灯
+    @BindView(R.id.lamp_view)
+    LampView lampView;
+    @BindView(R.id.code_iv)
+    ImageView code_iv;//二维码
+    @BindView(R.id.welfare_bar_view)
+    RelativeLayout welfareBarView;
+    @BindView(R.id.pull_refresh_scrollview)
+    PullToRefreshScrollView pullRefreshScrollview;
+    @BindView(R.id.id_banner)
+    Banner banner;
+    List<BannerModel> mDatas;
+//    @BindView(R.id.activity)
+//    TextView activity;
+//    @BindView(R.id.shop)
+//    TextView shop;
+//    @BindView(R.id.fastsend)
+//    TextView fast;
+//    @BindView(R.id.news)
+//    TextView news;
+    private int mYear,mMonth,mDay,mWay,mHour,mMinute;
+    @BindView(R.id.gg_lv)
+    ListView gglv;
 
     public void display(){
         // 1.展示的内容
@@ -95,10 +93,10 @@ public class FragmentSY extends Fragment implements View.OnClickListener{
                 getActivity())
                 .setContentTitle("门禁识别结果")
                 .setContentText("识别成功！")
-                .setSmallIcon(R.drawable.zhisu)
+                .setSmallIcon(R.mipmap.icon)
                 .setLargeIcon(
                         BitmapFactory.decodeResource(getResources(),
-                                R.drawable.ic_launcher));
+                                R.mipmap.icon));
         // 2.点击通知栏的跳转
         Intent intent = new Intent(getActivity(), FastActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -121,37 +119,25 @@ public class FragmentSY extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootview = inflater.inflate(R.layout.fragmentsy , container , false);
-        banner = rootview.findViewById(R.id.id_banner);
-        activity = rootview.findViewById(R.id.activity);
-        shop = rootview.findViewById(R.id.shop);
-        fast = rootview.findViewById(R.id.fastsend);
-//        record = rootview.findViewById(R.id.record);
-        news = rootview.findViewById(R.id.news);
-        gglv = (ListView) rootview.findViewById(R.id.gg_lv);
-        activity.setOnClickListener(this);
-        shop.setOnClickListener(this);
-        fast.setOnClickListener(this);
-        news.setOnClickListener(this);
+        ButterKnife.bind(this,rootview);
+        code_iv.setOnClickListener(this);
+
+        initPullRefreshScrollview();
+        initLamp();
 
         MyLVAdapter adapter1 = new MyLVAdapter();
         gglv.setAdapter(adapter1);
-        gglv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(),ActivityGG.class);
+        gglv.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(getContext(),ActivityGG.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putInt("position",position);
-                intent.putExtra("data",bundle);
+            Bundle bundle = new Bundle();
+            bundle.putInt("position",position);
+            intent.putExtra("data",bundle);
 
-                intent.putExtra("position",position);
-                Log.e("position",position+"");
-                startActivity(intent);
-            }
+            intent.putExtra("position",position);
+            Log.e("position",position+"");
+            startActivity(intent);
         });
-        List<String> data = getMarqueeData();
-        XMarqueeView xMarqueeView = (XMarqueeView) rootview.findViewById(R.id.marquee);
-        xMarqueeView.setAdapter(new MarqueeViewAdapter(data, getContext()));
         mDatas = new ArrayList<BannerModel>();
         //初始化mdatas图像数据
         getData();
@@ -199,9 +185,6 @@ public class FragmentSY extends Fragment implements View.OnClickListener{
 //                        intent.putExtra("url","http://www.baidu.com/");
 //                        startActivity(intent);
                         Toast.makeText(getContext(), "欢迎使用智宿app", Toast.LENGTH_SHORT).show();
-
-//                        display();
-
                         break;
                     case 1:
                         intent.setClass(getContext() , CarQuesActivity.class);
@@ -227,6 +210,41 @@ public class FragmentSY extends Fragment implements View.OnClickListener{
         return rootview;
     }
 
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent();
+        switch (view.getId()){
+            default:
+                break;
+            case R.id.code_iv:
+                //OCR：
+                Toast.makeText(getContext(), "点击扫描", Toast.LENGTH_SHORT).show();
+                intent.setClass(getContext() , TransImgAct.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    private void initPullRefreshScrollview() {
+        welfareBarView.getBackground().mutate().setAlpha(0);
+        welfareBarView.setVisibility(View.GONE);
+        Log.e("是否可见","gone");
+        //下拉刷新
+        pullRefreshScrollview.getRefreshableView().
+                getViewTreeObserver().
+                addOnScrollChangedListener(() -> {
+                    if ((pullRefreshScrollview.getRefreshableView().getScrollY()) > 1) {
+                        welfareBarView.setVisibility(View.VISIBLE);
+                    } else {
+                        welfareBarView.setVisibility(View.GONE);
+                    }
+
+                    Log.e("是否可见","y:"+pullRefreshScrollview.getRefreshableView().getScrollY());
+                    int alpha = pullRefreshScrollview.getRefreshableView().getScrollY();
+                    welfareBarView.getBackground().mutate().setAlpha(alpha <= 255 ? alpha < 10 ? 0 : alpha : 255);
+        });
+    }
+
     public void time() {
         Calendar c = Calendar.getInstance();//
         mYear = c.get(Calendar.YEAR); // 获取当前年份
@@ -238,55 +256,27 @@ public class FragmentSY extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onClick(View view) {
-        Intent intent = new Intent();
-        FragmentManager fragmentManager = null;
-        FragmentTransaction transaction = null;
-        switch (view.getId()){
-            default:
-                break;
-            case R.id.activity:
-                //校园活动：
-//                intent.setClass(getContext() , WebViewActivity.class);
-//                intent.putExtra("url","https://www.dhyedu.com/imgae/list.htm?typeid2=1415");
-//                startActivity(intent);
-//                Toast.makeText(getContext(), "dianji ", Toast.LENGTH_SHORT).show();
-                fragmentManager = getActivity().getSupportFragmentManager();
-                transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.drawlayout_content,new SchoolActivitiesFrament());
-                transaction.addToBackStack(null).commit();
-                break;
-            case R.id.shop:
-                //OCR：
-                intent.setClass(getContext() , TransImgAct.class);
-//                intent.putExtra("url","https://www.taobao.com/");
-                startActivity(intent);
-                break;
-            case R.id.fastsend:
-                //兼职：
-                intent.setClass(getContext() , FastActivity.class);
-                startActivity(intent);
-                break;
-//            case R.id.record:
-//                //记录：
-//                intent.setClass(getContext() , WebViewActivity.class);
-//                intent.putExtra("url","http://www.baidu.com/");
-//                startActivity(intent);
-//                break;
-            case R.id.news:
-                //校园头条
-//                intent.setClass(getContext() , WebViewActivity.class);
-//                intent.putExtra("url","http://www.baidu.com/");
-//                startActivity(intent);
-//                break;
-                fragmentManager = getActivity().getSupportFragmentManager();
-                transaction = fragmentManager.beginTransaction();
-                transaction.add(R.id.drawlayout_content,new Fragmentnews());
-                transaction.addToBackStack(null).commit();
-            case R.id.change:
-//                Mypost();
-                break;
-        }
+    public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+        new Thread(()->{
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        refreshView.onRefreshComplete();
+    }
+
+    @Override
+    public void onPullUpToRefresh(PullToRefreshBase refreshView) {
+        new Thread(()->{
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+        refreshView.onRefreshComplete();
     }
 
     class MyLVAdapter extends BaseAdapter {
@@ -323,10 +313,10 @@ public class FragmentSY extends Fragment implements View.OnClickListener{
             TextView time = rootview.findViewById(R.id.simple_time2);
             ImageView imageView = rootview.findViewById(R.id.imageview002);
             Log.e("________","&*********"+i);
-            title.setText(title1[i]);
-            content.setText(content1[i]);
-            time.setText(date[i]);
-            imageView.setImageResource(picture[i]);
+            title.setText(DataC.title1[i]);
+            content.setText(DataC.content1[i]);
+            time.setText(DataC.date[i]);
+            imageView.setImageResource(DataC.picture[i]);
 //            imageView.setImageResource(R.drawable.news1);
 
 
@@ -334,75 +324,44 @@ public class FragmentSY extends Fragment implements View.OnClickListener{
         }
     }
 
-    class MarqueeViewAdapter extends XMarqueeViewAdapter{
-
-        private Context mContext;
-        public MarqueeViewAdapter(List<String> datas, Context context) {
-            super(datas);
-            mContext = context;
-        }
-
-        @Override
-        public View onCreateView(XMarqueeView parent) {
-            //跑马灯单个显示条目布局，自定义
-            return LayoutInflater.from(parent.getContext()).inflate(R.layout.marqueeview_item, null);
-        }
-
-        @Override
-        public void onBindView(View parent, View view, final int position) {
-            //布局内容填充
-            TextView tvOne = (TextView) view.findViewById(R.id.marquee_tv_one);
-            tvOne.setText(mDatas.get(position).toString());
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "快去校园头条查看详情吧....", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-    private List<String> getMarqueeData() {
-        List<String> data = new ArrayList<>();
-        data.add("开学啦，同学们纷纷前去办网....");
-        data.add("开展大扫除活动检查。");
-        data.add("大扫除活动开展！！！");
-        data.add("我院网络系16级学生在信息安全铁人三项赛中获奖");
-        data.add("校领导参观本校");
-        data.add("宁波大红鹰学院 关于举办 “2017‘象山影视城杯’ 文化创意设计大赛”的通知");
-
-        return data;
-        //刷新数据
-        //marqueeViewAdapter.setData(data);
-    }
-
     private void getData() {
         mDatas.clear();
         BannerModel model = null;
         model = new BannerModel();
         //天猫
-        model.setImageUrl("http://img5.imgtn.bdimg.com/it/u=173532944,1975000701&fm=26&gp=0.jpg");
-        model.setTips("校园宿舍好帮手");
+        model.setImageUrl("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1620743413,3027851616&fm=26&gp=0.jpg");
+        model.setTips("1号会议室");
         mDatas.add(model);
 
         //驾考
         model = new BannerModel();
-        model.setImageUrl("http://img1.imgtn.bdimg.com/it/u=244790144,3579711323&fm=26&gp=0.jpg");
-        model.setTips("驾考学习归宿");
+        model.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553508929783&di=df17ba9a0bab01fcca07f579cfd22530&imgtype=0&src=http%3A%2F%2Fimg105.job1001.com%2Fupload%2Falbum%2F2014-08-22%2F1408686171-7QHFFF7_960_600.jpg");
+        model.setTips("2号会议室");
         mDatas.add(model);
 
         //学习英语
         model = new BannerModel();
-        model.setImageUrl("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1964576144,2912205023&fm=26&gp=0.jpg");
-        model.setTips("英语学习");
+        model.setImageUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554103693&di=5a1365b3759f5ad1163e7efd243e3427&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.yw2005.com%2Fbaike%2Fuploads%2Fallimg%2F160618%2F1-16061Q52032434.jpg");
+        model.setTips("3号会议室");
         mDatas.add(model);
-
-//        model = new BannerModel();
-//        model.setImageUrl("https://gw.alicdn.com/tps/i2/TB1ku8oMFXXXXciXpXXdIns_XXX-1125-352.jpg_q50.jpg");
-//        model.setTips("这是页面4");
-//        mDatas.add(model);
-        //banner.notifyDataHasChanged();
     }
+
+    private void initLamp() {
+        List<String> list=new ArrayList<>();
+        list.add("关于楼道内杂物的通知");
+        list.add("关于五一放假时间调整的通知");
+        list.add("关于楼道内杂物的通知");
+        list.add("关于五一放假时间调整的通知");
+        lampView.setLampData(list);
+
+        lampView.setOnClickListener((View v)->{
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(R.id.drawlayout_content,new Fragmentnews());
+            transaction.addToBackStack(null).commit();
+        });
+    }
+
 
 }
 

@@ -41,7 +41,7 @@ public class PinnedSectionAdapter extends CommonAdapter<CostRecordBean> implemen
             tvDegrees = commonViewHolder.getView(R.id.degrees);
             tvTotalPrice = commonViewHolder.getView(R.id.total_price);
             if (costRecordBean.getCostType() == 1) {
-                ivType.setBackgroundResource(R.drawable.water);
+                ivType.setBackgroundResource(R.drawable.act);
                 tvType.setText("水费");
                 Log.i("waterPrice",String.valueOf(costRecordBean.getDegrees() * WATER_PRICE));
                 tvTotalPrice.setText(df.format(costRecordBean.getDegrees() * WATER_PRICE) + "元");

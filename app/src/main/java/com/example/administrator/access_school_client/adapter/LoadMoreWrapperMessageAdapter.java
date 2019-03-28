@@ -1,7 +1,11 @@
 package com.example.administrator.access_school_client.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.administrator.access_school_client.MainActivity;
 import com.example.administrator.access_school_client.R;
+import com.example.administrator.access_school_client.Util.SharedPreferencesUtils;
 import com.example.administrator.access_school_client.bean.MessageEntity;
+import com.example.administrator.access_school_client.bean.User;
+import com.example.administrator.access_school_client.dao.MsgDao;
 
 import java.util.List;
 
@@ -42,10 +50,15 @@ public class LoadMoreWrapperMessageAdapter extends RecyclerView.Adapter<Recycler
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
         MessageEntity messageEsay = (MessageEntity) dataList.get(position);
-        if(position == 0){//设置系统通知的头像
-            recyclerViewHolder.ivpicture.setImageResource(R.drawable.ic_launcher);
-        }
-        recyclerViewHolder.tvtitle.setText(String.valueOf(messageEsay.getFrom()));
+//        if(position == 0){//设置系统通知的头像
+//            recyclerViewHolder.ivpicture.setImageResource(R.drawable.ic_launcher);
+//        }
+        MsgDao msgDao1 = new MsgDao(mcontext);
+        List<User> users = msgDao1.queryUser
+                (Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
+        //获得当前用户的头像
+        recyclerViewHolder.ivpicture.setImageResource(getPicture2());
+        recyclerViewHolder.tvtitle.setText(String.valueOf(users.get(0).getName()));
         recyclerViewHolder.tvtime.setText(String.valueOf(messageEsay.getTime()));
         recyclerViewHolder.tvcontent.setText(messageEsay.getMessage());
 
@@ -55,6 +68,13 @@ public class LoadMoreWrapperMessageAdapter extends RecyclerView.Adapter<Recycler
                 mListener.onClick(position);
             }
         });
+    }
+
+    //设置对方的头像
+    private int getPicture2() {
+        if(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")) == 1){
+            return R.drawable.lihua0;
+        }return R.drawable.lihua1;
     }
 
     @Override

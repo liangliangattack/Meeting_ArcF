@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/mt_blue"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/back_addfriend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back"
+            android:gravity="center_vertical"/>
+        <Button
+            android:alpha="0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加好友"
+            android:textColor="#fff"/>
+        <Button
+            android:alpha="0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6" />
+        <ImageView
+            android:alpha="0"
+            android:id="@+id/friend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/friend"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/sv_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#dfd9d9">
+    </android.support.v7.widget.SearchView>
+
+    <ListView
+        android:id="@+id/search_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+    </ListView>
+    <!--这里写一些好友推荐-->
+    <TextView
+        android:id="@+id/gone_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="search your friend"/>
+
+</LinearLayout>
