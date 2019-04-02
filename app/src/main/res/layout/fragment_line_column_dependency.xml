@@ -20,18 +20,17 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_margin="5dp">
+                android:gravity="center">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="关于会议室使用时间段统计结果表"/>
+                    android:text="关于会议次数统计结果表"/>
             </LinearLayout>
 
             <lecho.lib.hellocharts.view.LineChartView
                 android:id="@+id/chart_top"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" >
+                android:layout_height="230dp" >
             </lecho.lib.hellocharts.view.LineChartView>
 
             <View
@@ -44,7 +43,7 @@
             <lecho.lib.hellocharts.view.ColumnChartView
                 android:id="@+id/chart_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="230dp">
             </lecho.lib.hellocharts.view.ColumnChartView>
         </LinearLayout>
     </ScrollView>

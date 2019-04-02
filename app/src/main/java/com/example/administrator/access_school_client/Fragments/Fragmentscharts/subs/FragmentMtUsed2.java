@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
+import java.util.Random;
 /**
  * ..
  * author:liangliangattack 1364744931@.qq.com
@@ -34,7 +35,7 @@ public class FragmentMtUsed2 extends Fragment {
         barChart = rootView.findViewById(R.id.barChart1);
 
         //getBarData(X轴坐标个数, X所对应的值也就是Y值)
-        mBarData = getBarData(24, 10);
+        mBarData = getBarData(6, 20);
         showBarChart(barChart, mBarData);
 
         return rootView;
@@ -52,13 +53,15 @@ public class FragmentMtUsed2 extends Fragment {
     private BarData getBarData(int count, float range) {
         ArrayList<String> xValues = new ArrayList<String>();
         for (int i = 0; i < count; i++) {
-            xValues.add(i + "");
+            xValues.add("会议室"+(i+1));
         }
 
         ArrayList<BarEntry> yValues = new ArrayList<BarEntry>();
 
         for (int i = 0; i < count; i++) {
-            float value = (float) (Math.random() * range/*100以内的随机数*/) + 3;
+//            float value = (float) (Math.random() * range/*100以内的随机数*/) + 3;
+//            float value = ( 20 - new Random().nextInt(30));//带负数
+            float value =  new Random().nextInt(30);
             yValues.add(new BarEntry(value, i));
         }
 

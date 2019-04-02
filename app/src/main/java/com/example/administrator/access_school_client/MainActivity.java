@@ -65,54 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    private void displayNotification() {
-        Intent i = new Intent(this, FastActivity.class);
-        i.putExtra("notificationID", 1);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,i , PendingIntent.FLAG_UPDATE_CURRENT );
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService
-                (NOTIFICATION_SERVICE);
-        NotificationCompat.Builder notifyBuilder =
-                new NotificationCompat.Builder( this ).setContentTitle("门禁识别结果")
-                        .setContentText("识别成功！")
-                        .setSmallIcon(R.mipmap.icon)
-                        // 点击消失
-                        .setAutoCancel( true )
-                        // 设置该通知优先级
-                        .setPriority( Notification.PRIORITY_MAX )
-                        .setLargeIcon( BitmapFactory.decodeResource(getResources(), R.mipmap.icon ) )
-                        // 通知首次出现在通知栏，带上升动画效果的
-                        .setWhen( System.currentTimeMillis())
-                        // 通知产生的时间，会在通知信息里显示
-                        // 向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
-                        .setDefaults( Notification.DEFAULT_VIBRATE | Notification.DEFAULT_ALL | Notification.DEFAULT_SOUND );
-        notifyBuilder.setContentIntent(pendingIntent);
-        mNotifyMgr.notify( 1, notifyBuilder.build());
-    }
-
-    public void display(){
-        // 1.展示的内容
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
-                this)
-                .setContentTitle("门禁识别结果")
-                .setContentText("识别成功！")
-                .setSmallIcon(R.mipmap.icon)
-                .setLargeIcon(
-                        BitmapFactory.decodeResource(getResources(),
-                                R.mipmap.icon));
-        // 2.点击通知栏的跳转
-        Intent intent = new Intent(this, FastActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notificationBuilder.setContentIntent(pendingIntent);
-        // 3.发出通知
-        Notification notification = null;
-        notification = notificationBuilder.build();
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0, notification);
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

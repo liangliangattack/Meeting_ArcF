@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 
 import com.example.administrator.access_school_client.Fragments.FragmentSY;
 import com.example.administrator.access_school_client.R;
+import com.example.administrator.access_school_client.bean.Meeting;
+
+import java.util.List;
 
 /**
  * ..
@@ -25,6 +29,7 @@ import com.example.administrator.access_school_client.R;
 public class FragmentMymt extends Fragment {
 
     private ListView listView;
+    private List<Meeting> meetings = null;
 
     @Nullable
     @Override
@@ -44,6 +49,19 @@ public class FragmentMymt extends Fragment {
             intent.putExtra("position",position);
             Log.e("position",position+"");
             startActivity(intent);
+        });
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            View delview = parent.getChildAt(position).findViewById(R.id.linear_del);
+
+            delview.setVisibility(View.VISIBLE);
+            delview.findViewById(R.id.tv_del).setOnClickListener(v -> {
+                delview.setVisibility(View.GONE);
+//                curList.remove(position);
+//                adapter.notifyDataSetChanged();
+            });
+            delview.findViewById(R.id.tv_cancel).setOnClickListener(v -> delview.setVisibility(View.GONE));
+
+            return true;
         });
 
         return rootview;

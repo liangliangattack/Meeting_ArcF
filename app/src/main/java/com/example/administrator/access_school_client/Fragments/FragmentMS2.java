@@ -147,7 +147,7 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
         getData();
         //在LoadMoreWrapperAdapter设置自定义样式
         newLoad();
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         loadMoreWrapper = new LoadMoreWrapper(loadMoreWrapperAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(loadMoreWrapper);
@@ -290,19 +290,19 @@ public class FragmentMS2 extends Fragment implements ServiceConnection {
     private void getData() {
         messageEsays.clear();
         //创造模拟数据
-//        createData();
+        createData();
 //        数据库中查询数据
         MsgDao msgDao = new MsgDao(getActivity());
-//        msgDao.addUser(new User(0,
-//                "梨花",
-//                R.drawable.user,
-//                "我很帅",
-//                TimeUtil.getTime(System.currentTimeMillis())));
-//        msgDao.addUser(new User(1,
-//                "中二青年",
-//                R.drawable.user,
-//                "我更加帅",
-//                TimeUtil.getTime(System.currentTimeMillis())));
+        msgDao.addUser(new User(0,
+                "梨花",
+                R.drawable.user,
+                "我很帅",
+                TimeUtil.getTime(System.currentTimeMillis())));
+        msgDao.addUser(new User(1,
+                "中二青年",
+                R.drawable.user,
+                "我更加帅",
+                TimeUtil.getTime(System.currentTimeMillis())));
 
         List list = msgDao.getSimpleHistoryMessage(Integer.parseInt(SharedPreferencesUtils.getUserName("userId")));
         for(int flag = 0;flag<list.size();flag++){

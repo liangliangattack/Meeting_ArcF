@@ -6,14 +6,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-
-    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- camera -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- sdcard -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- camera -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- sdcard -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -24,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".UI.VerifyMeetingInvitation"></activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".UI.LoginActivity">
             <intent-filter>
@@ -50,15 +47,15 @@
         <activity android:name=".charts.TempoChartActivity" />
         <activity android:name=".charts.LineColumnDependencyActivity" />
         <activity android:name=".charts.SpeedChartActivity" />
-        <activity android:name=".UI.SearchDemoActivity"/>
-        <activity android:name=".UI.FriendDetailActivity"/>
+        <activity android:name=".UI.SearchDemoActivity" />
+        <activity android:name=".UI.FriendDetailActivity" />
 
         <service
             android:name=".Service.SocketService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".UI.FriendActivity"></activity>
+        <activity android:name=".UI.FriendActivity" />
     </application>
 
 </manifest>

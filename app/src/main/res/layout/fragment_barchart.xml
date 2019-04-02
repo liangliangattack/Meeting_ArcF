@@ -24,7 +24,8 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/barChart1"
                     android:layout_width="match_parent"
-                    android:layout_height="650dp"/>
+                    android:layout_height="460dp"
+                    android:paddingTop="10dp"/>
             </LinearLayout>
             <TextView
                 android:layout_width="match_parent"

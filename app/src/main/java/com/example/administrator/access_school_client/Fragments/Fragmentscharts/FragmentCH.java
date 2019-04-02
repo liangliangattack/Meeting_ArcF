@@ -64,9 +64,9 @@ public class FragmentCH extends Fragment implements View.OnClickListener{
         names = new ArrayList<String>();
         fragmentMtUsed = new FragmentMtUsed2();
         fragmentDistribution = new FragmentDistribution();
-        names.add("会议使用统计");
+        names.add("会议室使用统计/(日)");
         fragments.add(fragmentMtUsed);
-        names.add("会议时间段统计");
+        names.add("会议次数统计");
         fragments.add(fragmentDistribution);
         viewPager.setOffscreenPageLimit(names.size());
 
